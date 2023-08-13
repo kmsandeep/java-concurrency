@@ -1,24 +1,48 @@
 package org.kmsandeep.thread.executorService;
 
 import io.reactivex.rxjava3.core.Observable;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 public class ExecutorServiceEx {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+
+
+        InputStream inputStream = Files.newInputStream(Path.of("src/resources/countries-of-the-world.csv"));
+        try (CSVParser csvRecords = CSVParser.parse(inputStream, StandardCharsets.UTF_8, CSVFormat.DEFAULT)) {
+            Map<String, List<CSVRecord>> listMap = csvRecords.stream()
+                    .collect(Collectors.groupingBy(
+                            record -> record.get(1)
+                    ));
+        }
+
+
         List<String> tasks = List
-                .of("Read", "Write", "Play", "Dance", "Cook", "Walk", "Fuck", "Cry", "Run");
-        ExecutorService executorService = Executors.newFixedThreadPool(4);
+                .of("Read", "Write", "Play", "Dance",
+                        "Cook", "Walk", "Fuck", "Cry", "Run", "Fly", "Spy", "Read", "Write", "Play", "Dance",
+                        "Cook", "Walk", "Fuck", "Cry", "Run", "Fly", "Spy");
+        System.out.println(tasks.size());
+        int n = Runtime.getRuntime().availableProcessors();
+        ExecutorService executorService = Executors.newCachedThreadPool();
         try {
             List<Future<String>> futures = executorService.invokeAll(
                     tasks.stream()
-                            .map(str -> callable(str))
+                            .map(entry -> callable(String.valueOf(entry)))
                             .collect(Collectors.toList())
             );
             Observable.fromIterable(futures)
-                    .subscribe(m -> System.out.println(m.get()),
+                    .subscribe(m -> {},
                             error -> System.out.println(error),
                             () -> System.out.println("completed"));
         } catch (InterruptedException e) {
