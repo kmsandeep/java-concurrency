@@ -1,8 +1,10 @@
 package org.kmsandeep.thread.threadLocal;
 
-import static org.kmsandeep.Util.println;
 
 public class ThreadLocalEx {
+    private static void println(String s){
+        System.out.println(Thread.currentThread().getName()+" "+s);
+    }
 
     public static void main(String[] args) {
         ThreadLocal<String> threadLocal1 = new ThreadLocal<>();
@@ -37,11 +39,11 @@ public class ThreadLocalEx {
         }, "Thread-2");
 
         thread1.start();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            Thread.sleep(1000);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
 
         thread2.start();
     }

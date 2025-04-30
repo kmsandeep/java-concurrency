@@ -18,6 +18,7 @@ public class JoinThread implements Runnable{
         Thread mythread = new Thread(runnable,"joinRunnable");
         mythread.setDaemon(true);
         mythread.start();
+
         try {
             System.out.println(Thread.currentThread().getName());
             mythread.join(2000); // main-thread i.e. current thread wait at most 2 seconds for mythread to complete

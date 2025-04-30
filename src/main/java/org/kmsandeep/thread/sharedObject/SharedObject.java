@@ -33,16 +33,15 @@ public class SharedObject implements Runnable {
 
 
 //        executorService.
-        Map<String,String> map = new ConcurrentHashMap<>();
+        Map<String, String> map = new ConcurrentHashMap<>();
         for (int i = 0; i < 1_000_000; i++) {
-            if(map.containsKey("key")){
+            if (map.containsKey("key")) {
                 String val = map.remove("key");
-                if(val==null){
-                    System.out.println("Val in iteration "+i+" is null");
+                if (val == null) {
+                    System.out.println("Val in iteration " + i + " is null");
                 }
-            }
-            else{
-                map.put("key","val");
+            } else {
+                map.put("key", "val");
             }
         }
 
