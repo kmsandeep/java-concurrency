@@ -1,6 +1,7 @@
 package org.kmsandeep.stream.collector;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
@@ -36,5 +37,11 @@ public class ProductCollector implements Collector<Integer, int[], Integer> {
   @Override
   public Set<Characteristics> characteristics() {
     return Collections.emptySet();
+  }
+
+  public static void main(String[] args) {
+    Integer collect = List.of(2, 3, 4, 5).stream().collect(new ProductCollector());
+    System.out.println(collect);
+
   }
 }

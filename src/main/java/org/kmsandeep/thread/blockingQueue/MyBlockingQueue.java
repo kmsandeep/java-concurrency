@@ -24,6 +24,7 @@ public class MyBlockingQueue<E> {
     try {
       lock.lock();
         while (queue.size() == this.size) {
+          System.out.println("************Queue FULL *************");
             notFull.await();
         }
       queue.add(element);
@@ -39,6 +40,7 @@ public class MyBlockingQueue<E> {
     try {
       lock.lock();
         while (queue.size() == 0) {
+          System.out.println("*************Queue EMPTY****************");
             notEmpty.await();
         }
       E element = queue.remove();
